@@ -1,0 +1,22 @@
+[DefaultLogin]
+email = teward-sock@dark-net.net
+password = 47AlphaTango@2012
+
+[GeneralChatBehavior]
+silent_join = no
+join_message = "PyTIOBot has joined, ready to do stuff!"
+
+[ChatDefaults]
+prefix = !!/
+
+[chat.stackexchange.com]
+enabled = yes
+autojoins =
+
+[chat.stackoverflow.com]
+enabled = no
+autojoins =
+
+[meta.stackexchange.com]
+enabled = no
+autojoins =
