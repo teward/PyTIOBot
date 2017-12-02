@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import re
+from globalvalues import GlobalValues
 from termcolor import colored
 from helpers import log, Response
 from ChatExchange.chatexchange.messages import Message
@@ -26,18 +27,18 @@ def print_chat_message(ev):
 # noinspection PyMissingTypeHints,PyBroadException
 def watcher(ev, wrap2):
     try:
-        if ev.type_id != 1 and ev.type_id != 2:
+        print(ev)
+        if ev.type_id != 1 and ev.data['user_id'] != GlobalValues.bot_user_id[wrap2.host]:
             return
-
-        print_chat_message(ev)
 
         ev_room = str(ev.data["room_id"])
         ev_user_id = str(ev.data["user_id"])
         ev_room_name = ev.data["room_name"].encode('utf-8')
-        if ev.type_id == 2:
-            ev.message = Message(ev.message.id, wrap2)
+        ev.message = Message(ev.message.id, wrap2)
         content_source = ev.message.content_source
         message_id = ev.message.id
+
+        print_chat_message(ev)
 
         message_parts = re.split('[ ,]+', content_source)
 
@@ -95,15 +96,6 @@ def watcher(ev, wrap2):
 
 
 # noinspection PyMissingTypeHints
-def print_chat_message(ev):
-    message = colored("Chat message in " + ev.data["room_name"] + " (" + str(ev.data["room_id"]) + "): \"",
-                      attrs=['bold'])
-    message += ev.data['content']
-    message += "\""
-    log('info', message + colored(" - " + ev.data['user_name'], attrs=['bold']))
-
-
-# noinspection PyMissingTypeHints
 def handle_commands(content_lower, message_parts, ev_room, ev_room_name, ev_user_id, ev_user_name, wrap2, content,
                     message_id):
     message_url = "//chat.{host}/transcript/message/{id}#{id}".format(host=wrap2.host, id=message_id)
@@ -157,6 +149,10 @@ def handle_commands(content_lower, message_parts, ev_room, ev_room_name, ev_user
         'message_url': message_url,
         'wrap2': wrap2,
     }
+
+    if ev_user_id == GlobalValues.bot_user_id[wrap2.host]:
+        return
+
     if command not in cmds:
         return Response(command_status=False, message=None)  # Unrecognized command, can be edited later.
 

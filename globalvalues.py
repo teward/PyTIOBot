@@ -6,12 +6,30 @@ from configparser import ConfigParser, RawConfigParser
 
 
 class GlobalValues:
-    bot_user_id = {'stackexchange.com': '', 'stackoverflow.com': None, 'meta.stackexchange.com': None}
 
     config = ConfigParser()
     config.read('config')
     username = config['DefaultLogin']['email']
     password = config['DefaultLogin']['password']
+
+    bot_user_id = {'stackexchange.com':
+                   config['chat.stackexchange.com']['bot_uid']
+                   if config.has_option('chat.stackexchange.com', 'bot_uid') and
+                   config.get('chat.stackexchange.com', 'bot_uid') is not None
+                   else None,
+
+                   'stackoverflow.com':
+                   config['chat.stackoverflow.com']['bot_uid']
+                   if config.has_option('chat.stackoverflow.com', 'bot_uid') and
+                   config.get('chat.stackoverflow.com', 'bot_uid') is not None
+                   else None,
+
+                   'meta.stackexchange.com':
+                   config['chat.meta.stackexchange.com']['bot_uid']
+                   if config.has_option('chat.meta.stackexchange.com', 'bot_uid') and
+                   config.get('chat.meta.stackexchange.com', 'bot_uid') is not None
+                   else None
+                   }
 
     se_chat = Client("stackexchange.com")
     mse_chat = Client("meta.stackexchange.com")
@@ -39,16 +57,30 @@ class GlobalValues:
     else:
         so_autojoins = None
 
-    se_userid = None
+    se_userid = config['chat.stackexchange.com']['bot_uid'] \
+        if config.has_option('chat.stackexchange.com', 'bot_uid') and \
+        config.get('chat.stackexchange.com', 'bot_uid') is not None else None
     se_botmaster_room_id = '68356'
 
-    mse_userid = None
+    mse_userid = config['chat.meta.stackexchange.com']['bot_uid'] \
+        if config.has_option('chat.meta.stackexchange.com', 'bot_uid') and \
+        config.get('chat.meta.stackexchange.com', 'bot_uid') is not None else None
 
-    so_userid = None
+    so_userid = config['chat.stackoverflow.com']['bot_uid'] \
+        if config.has_option('chat.stackoverflow.com', 'bot_uid') and \
+        config.get('chat.stackoverflow.com', 'bot_uid') is not None else None
 
-    se_privileged_users = []
-    so_privileged_users = []
-    metase_privileged_users = []
+    privileged_users = {
+        'stackexchange.com': [
+            10145,  # Thomas Ward, Bot Master
+        ],
+        'meta.stackexchange.com': [
+            # No users at this time
+        ],
+        'stackoverflow.com': [
+            # No users at this time.
+        ]
+    }
 
     startup_utc = datetime.utcnow().strftime("%H:%M:%S")
 
@@ -59,3 +91,4 @@ class GlobalValues:
 
     bot_name = "PyTIOBot"
 
+    not_privileged_warning = "You are not a privileged user."

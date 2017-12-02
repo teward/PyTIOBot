@@ -1,6 +1,7 @@
 # coding=utf-8
 
 import os
+from globalvalues import GlobalValues
 from collections import namedtuple
 from datetime import datetime
 from termcolor import colored
@@ -31,3 +32,10 @@ def log(log_level, *args):
                               u"  ".join([str(x) for x in args]))
     print(log_str)
 
+
+# noinspection PyMissingTypeHints
+def is_privileged(chat_site, user_id_str, wrap2):
+    if user_id_str in GlobalValues.privileged_users[chat_site]:
+        return True
+    user = wrap2.get_user(user_id_str)
+    return user.is_moderator
