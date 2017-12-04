@@ -11,8 +11,6 @@ class TioVariable:
         self._name = name
         self._content = content
 
-        raise NotImplementedError
-
     @property
     def name(self):
         return self._name

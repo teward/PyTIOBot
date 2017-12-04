@@ -131,3 +131,11 @@ fabric.properties
 ChatExchange
 
 /config
+
+*.bad
+
+errorLogs.txt
+
+# We wrote a simple testing script here.  This proves the Tio lib works.
+# However, it's not needed in the Git repo.
+test_tio.py

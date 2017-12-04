@@ -49,9 +49,17 @@ class AdminCommands:
                             message=u"\u2573 " + GlobalValues.not_privileged_warning)
 
 
+class TioCommands:
+
+    @staticmethod
+    def command_run(ev_room, ev_user_id, wrap2, *args, **kwargs):
+        raise NotImplementedError
+
+
 command_dict = {
     GlobalValues.chatprefix + "alive": AdminCommands.command_alive,
     GlobalValues.chatprefix + "ping": AdminCommands.command_alive,
     GlobalValues.chatprefix + "privileged": AdminCommands.command_privileged,
     GlobalValues.chatprefix + "amiprivileged": AdminCommands.command_privileged,
+    GlobalValues.chatprefix + "amiprivileged": TioCommands.command_run,
 }

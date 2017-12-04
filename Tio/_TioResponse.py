@@ -5,25 +5,42 @@ from typing import Optional, Any
 
 class TioResponse:
     _code = 0
+    _data = None
     _result = None
     _error = None
 
-    def __init__(self, code, result: Optional[Any] = None, error: Optional[Any] = None):
+    def __init__(self, code, data: Optional[Any] = None, error: Optional[Any] = None):
         self._code = code
-        self._result = result
-        self._error = error
+        self._data = data
+        self._splitdata = self._data.split(self._data[:16])
+        if not self._splitdata or self._splitdata[1] == b'':
+            self._error = self._splitdata[2]
+            self._result = None
+        else:
+            self._error = None
+            self._result = self._splitdata[1]
 
     @property
     def code(self):
-        return self._code
+        return self._code.decode('utf-8')
 
     @property
     def result(self):
-        return self._result
+        if self._result:
+            return self._result.decode('utf-8')
+        else:
+            return None
 
     @property
     def error(self):
-        return self._error
+        if self._error:
+            return self._error.decode('utf-8')
+        else:
+            return None
+
+    @property
+    def raw(self):
+        return self._data
 
     def get_code(self):
         return self.code

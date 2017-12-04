@@ -1,4 +1,6 @@
 # coding=utf-8
+import gzip
+import io
 import json
 # noinspection PyCompatibility
 import urllib.request
@@ -8,18 +10,18 @@ import urllib.parse
 import urllib.error
 import zlib
 
-from Tio import TioRequest, TioResponse
+from ._TioRequest import TioRequest
+from ._TioResponse import TioResponse
 from typing import Union
+
 
 class Tio:
     backend = "cgi-bin/run/api/"
     json = "languages.json"
 
     def __init__(self, url="https://tio.run"):
-        self.backend = urllib.parse.urlparse(url + '/' + self.backend)
-        self.json = urllib.parse.urlparse(url + '/' + self.json)
-
-        raise NotImplementedError
+        self.backend = url + '/' + self.backend
+        self.json = url + '/' + self.json
 
     @staticmethod
     def read_in_chunks(stream_object, chunk_size=1024):
@@ -48,16 +50,20 @@ class Tio:
             return set()
 
     def send(self, fmt: TioRequest):
-        return self.send_bytes(fmt.as_bytes())
+        return self.send_bytes(fmt.as_deflated_bytes())
 
     def send_bytes(self, message: bytes):
         try:
+            backend = self.backend
             req = urllib.request.urlopen(self.backend, data=message)
             reqcode = req.getcode()
             if req.code == 200:
-                fulldata = ''
-                for data in self.read_in_chunks(req):
-                    fulldata += req.read(1024).decode('utf-8')
+                if req.info().get_content_type() == 'application/octet-stream':
+                    buf = io.BytesIO(req.read())
+                    gzip_f = gzip.GzipFile(fileobj=buf)
+                    fulldata = gzip_f.read()
+                else:
+                    fulldata = req.read()
 
                 return TioResponse(reqcode, fulldata, None)
             else:

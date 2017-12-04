@@ -27,7 +27,7 @@ def print_chat_message(ev):
 # noinspection PyMissingTypeHints,PyBroadException
 def watcher(ev, wrap2):
     try:
-        print(ev)
+        # print(ev)  # FOR DEBUGGING ONLY
         if ev.type_id != 1 and ev.data['user_id'] != GlobalValues.bot_user_id[wrap2.host]:
             return
 
@@ -77,10 +77,10 @@ def watcher(ev, wrap2):
                 traceback.print_exc()
                 raise e  # Raise an error if it's not the 'expected' nonexistent link error.
 
-        if result.message:
-            message_with_reply = u":{} {}".format(message_id, result.message)
-            if len(message_with_reply) <= 500 or "\n" in result.message:
-                ev.message.reply(result.message, False)
+        # if result.message:
+        #     message_with_reply = u":{} {}".format(message_id, result.message)
+        #     if len(message_with_reply) <= 500 or "\n" in result.message:
+        #         ev.message.reply(result.message, False)
         if result.command_status is False:
             pass
     except Exception:
@@ -156,4 +156,5 @@ def handle_commands(content_lower, message_parts, ev_room, ev_room_name, ev_user
     if command not in cmds:
         return Response(command_status=False, message=None)  # Unrecognized command, can be edited later.
 
+    print(message_parts)
     return cmds[command](**command_parameters)

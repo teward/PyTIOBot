@@ -11,8 +11,6 @@ class TioFile:
         self._name = name
         self._content = content
 
-        raise NotImplementedError
-
     def get_name(self):
         return self.name
 
