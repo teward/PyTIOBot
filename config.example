@@ -1,6 +1,6 @@
 [DefaultLogin]
-email = teward-sock@dark-net.net
-password = 47AlphaTango@2012
+email =
+password =
 
 [GeneralChatBehavior]
 silent_join = no
