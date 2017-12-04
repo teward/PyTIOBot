@@ -147,6 +147,7 @@ def handle_commands(content_lower, message_parts, ev_room, ev_room_name, ev_user
         'ev_user_name': ev_user_name,
         'message_parts': message_parts,
         'message_url': message_url,
+        'message_id': message_id,
         'wrap2': wrap2,
     }
 
@@ -156,5 +157,4 @@ def handle_commands(content_lower, message_parts, ev_room, ev_room_name, ev_user
     if command not in cmds:
         return Response(command_status=False, message=None)  # Unrecognized command, can be edited later.
 
-    print(message_parts)
     return cmds[command](**command_parameters)

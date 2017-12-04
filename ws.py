@@ -65,11 +65,6 @@ if GlobalValues.so_autojoins:
         so_rooms[id_].join()
         so_rooms[id_].watch_socket(watcher)
 
-try:
-    raise RuntimeError
-except RuntimeError:
-    pass
-
 
 # noinspection PyProtectedMember
 def restart_automatically(time_in_seconds):

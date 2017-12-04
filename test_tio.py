@@ -3,16 +3,17 @@
 from Tio import Tio, TioRequest
 
 tio = Tio()
-request = TioRequest(lang='apl-dyalog', code="⎕←'Hello, World!'")
+
+request = TioRequest(lang='apl-dyalog', code="")
 
 # request.set_lang(input("Lang: "))
 # request.set_code(input("Code: "))
 
-print(request.as_bytes())
-
 data = tio.send(request)
 
+print(data.raw.decode('utf-8').split('\r\n'))
+
 if data.error:
-    print(data.error)
+    print("ERROR: {}".format(data.error))
 else:
-    print(data.result)
+    print("RESULT: {}".format(data.result))

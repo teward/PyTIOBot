@@ -13,7 +13,7 @@ class TioResponse:
         self._code = code
         self._data = data
         self._splitdata = self._data.split(self._data[:16])
-        if not self._splitdata or self._splitdata[1] == b'':
+        if not self._splitdata[1] or self._splitdata[1] == b'':
             self._error = self._splitdata[2]
             self._result = None
         else:

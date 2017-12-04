@@ -3,9 +3,13 @@ from ChatExchange_Extension import Client
 from datetime import datetime
 # noinspection PyCompatibility
 from configparser import ConfigParser, RawConfigParser
+from Tio import Tio
 
 
 class GlobalValues:
+
+    tio = Tio()
+    prog_languages = tio.query_languages()
 
     config = ConfigParser()
     config.read('config')

@@ -2,6 +2,7 @@
 
 from helpers import Response, is_privileged
 import random
+from Tio import TioRequest
 from globalvalues import GlobalValues
 
 
@@ -52,8 +53,42 @@ class AdminCommands:
 class TioCommands:
 
     @staticmethod
-    def command_run(ev_room, ev_user_id, wrap2, *args, **kwargs):
-        raise NotImplementedError
+    def command_run(message_parts, ev_room, ev_user_name, wrap2, *args, **kwargs):
+        if len(message_parts) <= 2:
+            return Response(command_status=True, message=u"We need two things given with this command: the programming"
+                                                         u" language of the code, *and* the code, in that order.")
+
+        language = message_parts[1]
+
+        if language not in GlobalValues.prog_languages:
+            return Response(command_status=True, message=u"The specified programming language is not available in Tio.")
+
+        code = " ".join(message_parts[2:])
+        print("Language: {lang} | Code: {code}".format(lang=language, code=code))
+
+        data = GlobalValues.tio.send(TioRequest(language, code))
+        output_parts = []
+        if data.error:
+            spliterror = data.error.split('\n')
+            for item in spliterror:
+                output_parts.append("    {}\n".format(item))
+
+        else:
+            splitresult = data.result.split('\n')
+            for item in splitresult:
+                output_parts.append("    {}\n".format(item))
+
+        wrap2.get_room(ev_room).send_message('    @{}\n{}'.format(ev_user_name, "".join(output_parts)))
+
+        return
+
+    @staticmethod
+    def run_lang(message_parts, ev_room, ev_user_name, wrap2, *args, **kwargs):
+        language = message_parts[0].replace(GlobalValues.chatprefix, '')
+        code = ' '.join(message_parts[1:])
+        parts = [GlobalValues.chatprefix + "run", language, code]
+        TioCommands.command_run(message_parts=parts, ev_room=ev_room, ev_user_name=ev_user_name, wrap2=wrap2)
+        pass
 
 
 command_dict = {
@@ -61,5 +96,8 @@ command_dict = {
     GlobalValues.chatprefix + "ping": AdminCommands.command_alive,
     GlobalValues.chatprefix + "privileged": AdminCommands.command_privileged,
     GlobalValues.chatprefix + "amiprivileged": AdminCommands.command_privileged,
-    GlobalValues.chatprefix + "amiprivileged": TioCommands.command_run,
+    GlobalValues.chatprefix + "run": TioCommands.command_run,
 }
+
+for lang in GlobalValues.prog_languages:
+    command_dict[GlobalValues.chatprefix + lang] = TioCommands.run_lang

@@ -8,7 +8,6 @@ import urllib.request
 import urllib.parse
 # noinspection PyCompatibility
 import urllib.error
-import zlib
 
 from ._TioRequest import TioRequest
 from ._TioResponse import TioResponse
@@ -37,13 +36,11 @@ class Tio:
     def new_request():
         return TioRequest
 
-    @staticmethod
     def query_languages(self):
         try:
-            response = urllib.request.urlopen(urllib.request.Request(json))
+            response = urllib.request.urlopen(self.json)
             rawdata = json.loads(response.read().decode('utf-8'))
-            data = rawdata.keys()
-            return set(data)
+            return set(rawdata.keys())
         except (urllib.error.HTTPError, urllib.error.URLError):
             return set()
         except Exception:
