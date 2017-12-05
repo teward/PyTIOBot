@@ -2,7 +2,7 @@
 from ChatExchange_Extension import Client
 from datetime import datetime
 # noinspection PyCompatibility
-from configparser import ConfigParser, RawConfigParser
+from configparser import ConfigParser
 from Tio import Tio
 
 
