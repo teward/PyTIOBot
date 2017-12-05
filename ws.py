@@ -10,6 +10,11 @@ from globalvalues import GlobalValues
 
 from chat_communicate import watcher
 
+from excepthook import uncaught_exception, install_thread_excepthook
+import sys
+sys.excepthook = uncaught_exception
+install_thread_excepthook()
+
 se_rooms = {}
 mse_rooms = {}
 so_rooms = {}
@@ -69,7 +74,7 @@ if GlobalValues.so_autojoins:
 # noinspection PyProtectedMember
 def restart_automatically(time_in_seconds):
     time.sleep(time_in_seconds)
-    os._exit(1)
+    exit(1)
 
 
 Thread(name="auto restart thread", target=restart_automatically, args=(21600,)).start()

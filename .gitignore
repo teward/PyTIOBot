@@ -130,7 +130,7 @@ fabric.properties
 # Ignore ChatExchange
 ChatExchange
 
-/config
+config
 
 *.bad
 
