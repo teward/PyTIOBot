@@ -75,12 +75,17 @@ class GlobalValues:
         config.get('chat.stackoverflow.com', 'bot_uid') is not None else None
 
     privileged_users = {
+        # This is actually chat.stackexchange.com, but is shortened for the 'host' CE data value
         'stackexchange.com': [
             10145,  # Thomas Ward, Bot Master
         ],
+
+        # This is actually chat.meta.stackexchange.com, but is shortened for the 'host' CE data value
         'meta.stackexchange.com': [
             # No users at this time
         ],
+
+        # This is actually chat.stackexchange.com, but is shortened for the 'host' CE data value
         'stackoverflow.com': [
             # No users at this time.
         ]
@@ -95,4 +100,5 @@ class GlobalValues:
 
     bot_name = "PyTIOBot"
 
-    not_privileged_warning = "You are not a privileged user."
+    not_privileged_warning = "You are not a privileged user. " \
+                             "Go talk to my botmaster if you think you should be privileged."
