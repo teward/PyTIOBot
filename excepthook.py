@@ -5,7 +5,7 @@ import traceback
 import threading
 import sys
 from utcdate import UtcDate
-import websocket
+from websocket import WebSocketConnectionClosedException
 import requests
 from helpers import log
 
@@ -24,7 +24,7 @@ def log_exception(exctype, value, tb):
 def uncaught_exception(exctype, value, tb):
     delta = datetime.utcnow() - UtcDate.startup_utc_date
     log_exception(exctype, value, tb)
-    if delta.total_seconds() < 180 and exctype != websocket.WebSocketConnectionClosedException \
+    if delta.total_seconds() < 180 and exctype != WebSocketConnectionClosedException \
             and exctype != KeyboardInterrupt and exctype != SystemExit and exctype != requests.ConnectionError:
         exit(4)
     else:
