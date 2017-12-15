@@ -1,2 +1,4 @@
 typing
 pytio
+bs4
+websocket
