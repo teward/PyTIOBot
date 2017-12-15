@@ -49,7 +49,7 @@ if chatlogoncount >= 10:
 # and this is an always-join channel if we have SE Chat enabled.
 se_botmaster_room = GlobalValues.se_chat.get_room(str(GlobalValues.se_botmaster_room_id))
 se_botmaster_room.join()
-se_botmaster_room.send_message('PyTIOBot (Development Mode) is online.')
+se_botmaster_room.send_message('PyTIOBot is online, running on Lunar Eclipse.')
 
 if GlobalValues.se_autojoins:
     # But we also have another set of functions to handle other things so blah.
