@@ -1,4 +1,6 @@
+requests
 typing
 pytio
 bs4
 websocket
+termcolor
