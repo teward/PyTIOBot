@@ -97,32 +97,17 @@ while stoprunning is False:
 
     log('Exited with ecode {}'.format(ecode))
 
-    if ecode == 3:
-        log('Pull in new updates')
-        if 'windows' not in str(platform.platform()).lower():
-            git.checkout('deploy')
-            git.pull()
-            git.submodule('update')
-        else:
-            warn('Not pulling updates; we are on Windows')
-
-        count = 0
-        crashcount = 0
-
-    elif ecode == 4:
+    if ecode == 4:
         count += 1
         log('Incremented crash count: {}; sleeping before restart'.format(count))
         sleep(5)
 
         if crashcount == 2:
-            log('Crash count triggered reverted state')
-            if 'windows' not in str(platform.platform()).lower():
-                git.checkout('HEAD~1')
-            else:
-                warn('Not reverting; we are on Windows')
+            log('Crash count triggered death mode.')
 
             count = 0
             crashcount = 0
+            break
 
         else:
             crashcount += 1
@@ -134,21 +119,6 @@ while stoprunning is False:
     elif ecode == 6:
         log('Stopping')
         stoprunning = True
-
-    elif ecode == 7:
-        log('Adding "standby" to persistent arguments')
-        persistent_arguments.append("standby")
-
-    elif ecode == 8:
-        log('Checkout deploy')
-        # print "[NoCrash] Checkout Deploy"
-        if 'windows' not in str(platform.platform()).lower():
-            git.checkout('deploy')
-        else:
-            warn('Not checking out deploy branch; we are on Windows')
-
-        count = 0
-        crashcount = 0
 
     elif ecode == 10:
         warn('Socket failure, sleeping to hopefully let network recover')

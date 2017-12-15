@@ -27,9 +27,9 @@ def uncaught_exception(exctype, value, tb):
     log_exception(exctype, value, tb)
     if delta.total_seconds() < 180 and exctype != WebSocketConnectionClosedException\
             and exctype != KeyboardInterrupt and exctype != SystemExit and exctype != requests.ConnectionError:
-        exit(2)
+        exit(4)
     else:
-        exit(1)
+        exit(4)
 
 
 def install_thread_excepthook():
