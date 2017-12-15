@@ -10,13 +10,16 @@ join_message = "PyTIOBot has joined, ready to do stuff!"
 prefix = !!/
 
 [chat.stackexchange.com]
-enabled = yes
-autojoins =
-
-[chat.stackoverflow.com]
+bot_uid =
 enabled = no
 autojoins =
 
-[meta.stackexchange.com]
+[chat.stackoverflow.com]
+bot_uid =
+enabled = no
+autojoins =
+
+[chat.meta.stackexchange.com]
+bot_uid =
 enabled = no
 autojoins =
