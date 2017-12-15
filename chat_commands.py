@@ -29,7 +29,8 @@ class AdminCommands:
         return Response(command_status=True,
                         message=random.choice(['Yup', 'You doubt me?', 'Of course',
                                                '... did I miss something?', 'plz send teh coffee',
-                                               'Watching this endless list of new questions *never* gets boring',
+                                               'Sitting here waiting for someone to do something *never* gets '
+                                               'boring...',
                                                'Kinda sorta']))
 
     # noinspection PyIncorrectDocstring,PyUnusedLocal,PyMissingTypeHints
