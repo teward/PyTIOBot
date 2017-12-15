@@ -2,5 +2,5 @@ requests
 typing
 pytio
 bs4
-websocket-client
+websocket-client==0.42.1
 termcolor
